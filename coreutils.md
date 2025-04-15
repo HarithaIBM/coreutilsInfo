@@ -43,6 +43,28 @@ Used to manipulate text data.
 
 ---
 
+The `ls` command in Unix is used to list the contents of directories. Common options include:</br>
+`-l` for long listing format</br>
+`-a` to include hidden files</br>
+`-h` to make file sizes human-readable</br>
+
+ The `cp` command is used to copy files and directories. The `-r` option enables recursive copying of directories. </br>
+ 
+ The `grep` command is used to search for patterns in text. Useful options include:</br>
+`-i` for case-insensitive matching</br>
+`-r` for recursive directory search</br>
+`-n` to show line numbers in output</br>
+
+The `wc` command counts lines, words, and characters in files. Example:</br>
+`wc -l file.txt` → count lines</br>
+`wc -w file.txt` → count words</br>
+`wc -c file.txt` → count characters</br>
+
+The `sort` command arranges lines of text alphabetically or numerically. Use:</br>
+`-n` for numeric sort</br>
+`-r` to reverse order</br>
+`-u` to remove duplicates</br>
+
 ### ⚙️ Shell Utilities
 General-purpose shell tools.
 
