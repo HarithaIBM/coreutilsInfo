@@ -1,105 +1,225 @@
-# 🧰 GNU Core Utilities (coreutils)
+# GNU Coreutils: Main 20 Tools Explained
 
-GNU Core Utilities (coreutils) is a package of essential command-line tools used on Unix-like operating systems. These are the basic file, shell, and text manipulation utilities that form the backbone of most Linux distributions.
+GNU Coreutils is a package of essential command-line tools for Unix-like operating systems. These tools perform basic file, shell, and text operations and are integral to scripting and system administration. Mastering Coreutils enhances productivity and provides a deeper understanding of system internals.
 
----
-
-## 📦 What's Included?
-
-Coreutils brings together three sets of tools:
-
-### 📁 File Utilities
-Used for file operations.
-
-| Command | Description |
-|---------|-------------|
-| `ls`    | List directory contents |
-| `cp`    | Copy files and directories |
-| `mv`    | Move/rename files and directories |
-| `rm`    | Remove files or directories |
-| `mkdir` | Create directories |
-| `rmdir` | Remove empty directories |
-| `touch` | Change file timestamps or create empty files |
-| `stat`  | Display file/directory status |
-| `readlink` | Print resolved symbolic links |
+Below is a detailed explanation of 20 core utilities with usage examples and common options.
 
 ---
 
-### 🧮 Text Utilities
-Used to manipulate text data.
+## 1. `ls` — List Directory Contents
 
-| Command | Description |
-|---------|-------------|
-| `cat`   | Concatenate and display files |
-| `tac`   | Reverse version of `cat` |
-| `cut`   | Remove sections from lines of text |
-| `paste` | Merge lines of files |
-| `sort`  | Sort lines of text |
-| `uniq`  | Filter out repeated lines |
-| `wc`    | Word, line, character, byte count |
-| `head`  | Output the first lines of a file |
-| `tail`  | Output the last lines of a file |
-| `split` | Split a file into pieces |
+Lists files and directories in the current directory or given path. It's one of the most frequently used commands to inspect file structures.
+
+### Common Options:
+- `ls -l`: Long listing format showing permissions, size, and timestamps.
+- `ls -a`: Includes hidden files (those starting with a dot).
+- `ls -lh`: Human-readable file sizes like 1K, 2M.
+- `ls -lt`: Sorts files by modification time.
 
 ---
 
-The `ls` command in Unix is used to list the contents of directories. Common options include:</br>
-`-l` for long listing format</br>
-`-a` to include hidden files</br>
-`-h` to make file sizes human-readable</br>
+## 2. `cp` — Copy Files and Directories
 
- The `cp` command is used to copy files and directories. The `-r` option enables recursive copying of directories. </br>
- 
- The `grep` command is used to search for patterns in text. Useful options include:</br>
-`-i` for case-insensitive matching</br>
-`-r` for recursive directory search</br>
-`-n` to show line numbers in output</br>
+Copies files or directories from one location to another. It supports overwriting, preserving attributes, and recursive copying.
 
-The `wc` command counts lines, words, and characters in files. Example:</br>
-`wc -l file.txt` → count lines</br>
-`wc -w file.txt` → count words</br>
-`wc -c file.txt` → count characters</br>
-
-The `sort` command arranges lines of text alphabetically or numerically. Use:</br>
-`-n` for numeric sort</br>
-`-r` to reverse order</br>
-`-u` to remove duplicates</br>
-
-### ⚙️ Shell Utilities
-General-purpose shell tools.
-
-| Command | Description |
-|---------|-------------|
-| `echo`     | Display a line of text |
-| `printf`   | Format and print data |
-| `test`     | Evaluate conditional expressions |
-| `true`     | Return a true (zero) value |
-| `false`    | Return a false (non-zero) value |
-| `yes`      | Output a string repeatedly |
-| `sleep`    | Delay for a specified amount of time |
-| `date`     | Display or set the system date and time |
-| `whoami`   | Show the current user ID |
-| `id`       | Print user and group information |
-| `env`      | Show environment or run a command in a modified environment |
-| `basename` | Strip directory and suffix from filenames |
-| `dirname`  | Extract directory portion of a path |
+### Common Options:
+- `cp file1 file2`: Copies file1 to file2.
+- `cp -r dir1 dir2`: Recursively copy contents of dir1 to dir2.
+- `cp -u`: Copy only when the source file is newer.
+- `cp -p`: Preserve file mode, ownership, and timestamps.
 
 ---
 
-## 🧪 Example Usage
+## 3. `mv` — Move or Rename Files
 
-```bash
-# List files with details
-ls -l
+Moves files and directories or renames them. It overwrites destination files without warning unless used with options.
 
-# Count lines, words, and characters
-wc filename.txt
+### Common Options:
+- `mv old.txt new.txt`: Renames the file.
+- `mv file.txt /tmp/`: Moves file to /tmp.
+- `mv -i`: Prompt before overwriting existing files.
 
-# Display only the first 5 lines
-head -n 5 filename.txt
+---
 
-# Sort a list and remove duplicates
-sort data.txt | uniq
+## 4. `rm` — Remove Files or Directories
 
-# Sleep for 2 seconds
-sleep 2
+Deletes files or directories permanently. There’s no undo, so caution is needed.
+
+### Common Options:
+- `rm file.txt`: Removes a file.
+- `rm -r folder/`: Recursively removes directory.
+- `rm -f`: Forces deletion without prompt.
+- `rm -rf /`: *Dangerous! Deletes everything recursively without warning.*
+
+---
+
+## 5. `touch` — Create or Update Files
+
+Updates file timestamps or creates empty files. Useful in scripting and testing.
+
+### Common Options:
+- `touch new.txt`: Creates a file if it doesn’t exist.
+- `touch -c file.txt`: Updates timestamp only if the file exists.
+
+---
+
+## 6. `cat` — Concatenate and Display Files
+
+Displays the content of files, often used with redirection and piping.
+
+### Common Options:
+- `cat file.txt`: Prints file content.
+- `cat file1 file2 > merged.txt`: Concatenates files.
+- `cat -n file.txt`: Number all output lines.
+
+---
+
+## 7. `echo` — Print Text to Terminal
+
+Used to display lines of text or variables. Commonly used in scripts.
+
+### Common Options:
+- `echo "Hello World"`: Prints message.
+- `echo $USER`: Displays the value of the USER environment variable.
+- `echo -e "Line1\nLine2"`: Enables interpretation of backslash escapes.
+
+---
+
+## 8. `pwd` — Print Working Directory
+
+Shows the absolute path of the current directory. Helpful in scripts to track locations.
+
+### Example:
+- `pwd`: Might output `/home/haritha/code`
+
+---
+
+## 9. `cd` — Change Directory *(Shell Built-in)*
+
+Navigates between directories in the filesystem.
+
+### Examples:
+- `cd /etc`: Moves to the /etc directory.
+- `cd ~`: Moves to your home directory.
+- `cd -`: Switches to the previous directory.
+
+---
+
+## 10. `chmod` — Change File Permissions
+
+Modifies who can read, write, or execute a file.
+
+### Examples:
+- `chmod +x script.sh`: Makes a script executable.
+- `chmod 755 myapp`: Gives full permissions to the owner, read/execute to others.
+
+---
+
+## 11. `chown` — Change Ownership
+
+Changes file/directory ownership to another user or group.
+
+### Examples:
+- `chown root file.txt`: Changes ownership to root.
+- `chown user:group dir/`: Changes owner and group.
+
+---
+
+## 12. `head` — Show First Lines
+
+Prints the beginning of a file (default is 10 lines).
+
+### Examples:
+- `head /var/log/syslog`: See top of a log file.
+- `head -n 5 file.txt`: Display first 5 lines.
+
+---
+
+## 13. `tail` — Show Last Lines
+
+Prints the end of a file. With `-f`, it can track real-time updates.
+
+### Examples:
+- `tail -n 20 file.txt`: Shows last 20 lines.
+- `tail -f /var/log/syslog`: Live follow a log file.
+
+---
+
+## 14. `du` — Estimate File Space Usage
+
+Summarizes disk usage of files and directories.
+
+### Common Options:
+- `du -sh folder/`: Show human-readable size.
+- `du -ah .`: Shows sizes of all files in current directory.
+
+---
+
+## 15. `df` — Disk Space Usage
+
+Reports filesystem disk space usage.
+
+### Common Options:
+- `df -h`: Human-readable display.
+- `df /`: Check space for root filesystem.
+
+---
+
+## 16. `sort` — Sort Lines of Text
+
+Organizes lines of text alphabetically or numerically.
+
+### Examples:
+- `sort names.txt`: Alphabetical sort.
+- `sort -n values.txt`: Sort numerically.
+- `sort -r`: Reverse sort.
+
+---
+
+## 17. `uniq` — Filter Duplicate Lines
+
+Filters out adjacent duplicate lines in a file (must be sorted first).
+
+### Examples:
+- `uniq sorted.txt`: Remove duplicates.
+- `sort names.txt | uniq -c`: Count unique entries.
+
+---
+
+## 18. `wc` — Word/Line/Byte Count
+
+Counts the number of lines, words, and bytes in a file.
+
+### Examples:
+- `wc file.txt`: All counts.
+- `wc -l`: Lines only.
+- `wc -w`: Word count.
+
+---
+
+## 19. `cut` — Extract Fields from Lines
+
+Extracts columns or fields based on delimiters.
+
+### Examples:
+- `cut -d':' -f1 /etc/passwd`: Shows usernames.
+- `cut -c1-10 file.txt`: First 10 characters of each line.
+
+---
+
+## 20. `date` — Display or Set Date/Time
+
+Prints or sets the system date and time.
+
+### Examples:
+- `date`: Current date and time.
+- `date -d 'yesterday'`: View past date.
+- `date +%Y-%m-%d`: Custom format output.
+
+---
+
+## Summary
+
+These 20 GNU Coreutils tools form the foundation of shell scripting and system management. Mastery of these commands significantly enhances productivity, especially when automating tasks or debugging issues on Linux/Unix systems.
+
+---
