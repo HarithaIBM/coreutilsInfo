@@ -1,0 +1,190 @@
+GNU Coreutils is a package of essential command-line tools for Unix-like operating systems. These tools perform basic file, shell, and text operations and are integral to scripting and system administration. Mastering Coreutils enhances productivity and provides a deeper understanding of system internals.
+
+Below is a detailed explanation of 20 core utilities with usage examples and common options.
+
+ls — List Directory Contents
+Lists files and directories in the current directory or given path. It's one of the most frequently used commands to inspect file structures.
+Common Options:
+
+ls -l: Long listing format showing permissions, size, and timestamps.
+
+ls -a: Includes hidden files (those starting with a dot).
+
+ls -lh: Human-readable file sizes like 1K, 2M.
+
+ls -lt: Sorts files by modification time.
+
+cp — Copy Files and Directories
+Copies files or directories from one location to another. It supports overwriting, preserving attributes, and recursive copying.
+Common Options:
+
+cp file1 file2: Copies file1 to file2.
+
+cp -r dir1 dir2: Recursively copy contents of dir1 to dir2.
+
+cp -u: Copy only when the source file is newer.
+
+cp -p: Preserve file mode, ownership, and timestamps.
+
+mv — Move or Rename Files
+Moves files and directories or renames them. It overwrites destination files without warning unless used with options.
+Common Options:
+
+mv old.txt new.txt: Renames the file.
+
+mv file.txt /tmp/: Moves file to /tmp.
+
+mv -i: Prompt before overwriting existing files.
+
+rm — Remove Files or Directories
+Deletes files or directories permanently. There’s no undo, so caution is needed.
+Common Options:
+
+rm file.txt: Removes a file.
+
+rm -r folder/: Recursively removes directory.
+
+rm -f: Forces deletion without prompt.
+
+rm -rf /: Dangerous! Deletes everything recursively without warning.
+
+touch — Create or Update Files
+Updates file timestamps or creates empty files. Useful in scripting and testing.
+Common Options:
+
+touch new.txt: Creates a file if it doesn’t exist.
+
+touch -c file.txt: Updates timestamp only if the file exists.
+
+cat — Concatenate and Display Files
+Displays the content of files, often used with redirection and piping.
+Common Options:
+
+cat file.txt: Prints file content.
+
+cat file1 file2 > merged.txt: Concatenates files.
+
+cat -n file.txt: Number all output lines.
+
+echo — Print Text to Terminal
+Used to display lines of text or variables. Commonly used in scripts.
+Common Options:
+
+echo "Hello World": Prints message.
+
+echo $USER: Displays the value of the USER environment variable.
+
+echo -e "Line1\nLine2": Enables interpretation of backslash escapes.
+
+pwd — Print Working Directory
+Shows the absolute path of the current directory. Helpful in scripts to track locations.
+Example:
+
+pwd: Might output /home/haritha/code
+
+cd — Change Directory (Shell Built-in)
+Navigates between directories in the filesystem.
+Examples:
+
+cd /etc: Moves to the /etc directory.
+
+cd ~: Moves to your home directory.
+
+cd -: Switches to the previous directory.
+
+chmod — Change File Permissions
+Modifies who can read, write, or execute a file.
+Examples:
+
+chmod +x script.sh: Makes a script executable.
+
+chmod 755 myapp: Gives full permissions to the owner, read/execute to others.
+
+chown — Change Ownership
+Changes file/directory ownership to another user or group.
+Examples:
+
+chown root file.txt: Changes ownership to root.
+
+chown user:group dir/: Changes owner and group.
+
+head — Show First Lines
+Prints the beginning of a file (default is 10 lines).
+Examples:
+
+head /var/log/syslog: See top of a log file.
+
+head -n 5 file.txt: Display first 5 lines.
+
+tail — Show Last Lines
+Prints the end of a file. With -f, it can track real-time updates.
+Examples:
+
+tail -n 20 file.txt: Shows last 20 lines.
+
+tail -f /var/log/syslog: Live follow a log file.
+
+du — Estimate File Space Usage
+Summarizes disk usage of files and directories.
+Common Options:
+
+du -sh folder/: Show human-readable size.
+
+du -ah .: Shows sizes of all files in current directory.
+
+df — Disk Space Usage
+Reports filesystem disk space usage.
+Common Options:
+
+df -h: Human-readable display.
+
+df /: Check space for root filesystem.
+
+sort — Sort Lines of Text
+Organizes lines of text alphabetically or numerically.
+Examples:
+
+sort names.txt: Alphabetical sort.
+
+sort -n values.txt: Sort numerically.
+
+sort -r: Reverse sort.
+
+uniq — Filter Duplicate Lines
+Filters out adjacent duplicate lines in a file (must be sorted first).
+Examples:
+
+uniq sorted.txt: Remove duplicates.
+
+sort names.txt | uniq -c: Count unique entries.
+
+wc — Word/Line/Byte Count
+Counts the number of lines, words, and bytes in a file.
+Examples:
+
+wc file.txt: All counts.
+
+wc -l: Lines only.
+
+wc -w: Word count.
+
+cut — Extract Fields from Lines
+Extracts columns or fields based on delimiters.
+Examples:
+
+cut -d':' -f1 /etc/passwd: Shows usernames.
+
+cut -c1-10 file.txt: First 10 characters of each line.
+
+date — Display or Set Date/Time
+Prints or sets the system date and time.
+Examples:
+
+date: Current date and time.
+
+date -d 'yesterday': View past date.
+
+date +%Y-%m-%d: Custom format output.
+
+Summary
+These 20 GNU Coreutils tools form the foundation of shell scripting and system management. Mastery of these commands significantly enhances productivity, especially when automating tasks or debugging issues on Linux/Unix systems.
