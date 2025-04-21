@@ -6,22 +6,22 @@ Below is a detailed explanation of 20 core utilities with usage examples and com
 
 ---
 
-## 1. `ls` — List Directory Contents
-Lists files and directories in the current directory or given path. It's one of the most frequently used commands to inspect file structures.
-### Common Options:
-- `ls -l`: Long listing format showing permissions, size, and timestamps.
-- `ls -a`: Includes hidden files (those starting with a dot).
-- `ls -lh`: Human-readable file sizes like 1K, 2M.
-- `ls -lt`: Sorts files by modification time.
+      ## 1. `ls` — List Directory Contents
+      Lists files and directories in the current directory or given path. It's one of the most frequently used commands to inspect file structures.
+      ### Common Options:
+      - `ls -l`: Long listing format showing permissions, size, and timestamps.
+      - `ls -a`: Includes hidden files (those starting with a dot).
+      - `ls -lh`: Human-readable file sizes like 1K, 2M.
+      - `ls -lt`: Sorts files by modification time.
 ---
 
-## 2. `cp` — Copy Files and Directories
-Copies files or directories from one location to another. It supports overwriting, preserving attributes, and recursive copying.
-### Common Options:
-- `cp file1 file2`: Copies file1 to file2.
-- `cp -r dir1 dir2`: Recursively copy contents of dir1 to dir2.
-- `cp -u`: Copy only when the source file is newer.
-- `cp -p`: Preserve file mode, ownership, and timestamps.
+      ## 2. `cp` — Copy Files and Directories
+      Copies files or directories from one location to another. It supports overwriting, preserving attributes, and recursive copying.
+      ### Common Options:
+      - `cp file1 file2`: Copies file1 to file2.
+      - `cp -r dir1 dir2`: Recursively copy contents of dir1 to dir2.
+      - `cp -u`: Copy only when the source file is newer.
+      - `cp -p`: Preserve file mode, ownership, and timestamps.
 ---
 
 ## 3. `mv` — Move or Rename Files
@@ -35,28 +35,28 @@ Moves files and directories or renames them. It overwrites destination files wit
 
 ---
 
-## 4. `rm` — Remove Files or Directories
-Deletes files or directories permanently. There’s no undo, so caution is needed.
-### Common Options:
-- `rm file.txt`: Removes a file.
-- `rm -r folder/`: Recursively removes directory.
-- `rm -f`: Forces deletion without prompt.
-- `rm -rf /`: *Dangerous! Deletes everything recursively without warning.*
+      ## 4. `rm` — Remove Files or Directories
+      Deletes files or directories permanently. There’s no undo, so caution is needed.
+      ### Common Options:
+      - `rm file.txt`: Removes a file.
+      - `rm -r folder/`: Recursively removes directory.
+      - `rm -f`: Forces deletion without prompt.
+      - `rm -rf /`: *Dangerous! Deletes everything recursively without warning.*
 ---
 
-## 5. `touch` — Create or Update Files
-Updates file timestamps or creates empty files. Useful in scripting and testing.
-### Common Options:
-- `touch new.txt`: Creates a file if it doesn’t exist.
-- `touch -c file.txt`: Updates timestamp only if the file exists.
+      ## 5. `touch` — Create or Update Files
+      Updates file timestamps or creates empty files. Useful in scripting and testing.
+      ### Common Options:
+      - `touch new.txt`: Creates a file if it doesn’t exist.
+      - `touch -c file.txt`: Updates timestamp only if the file exists.
 ---
 
-## 6. `cat` — Concatenate and Display Files
-Displays the content of files, often used with redirection and piping.
-### Common Options:
-- `cat file.txt`: Prints file content.
-- `cat file1 file2 > merged.txt`: Concatenates files.
-- `cat -n file.txt`: Number all output lines.
+      ## 6. `cat` — Concatenate and Display Files
+      Displays the content of files, often used with redirection and piping.
+      ### Common Options:
+      - `cat file.txt`: Prints file content.
+      - `cat file1 file2 > merged.txt`: Concatenates files.
+      - `cat -n file.txt`: Number all output lines.
 ---
 
 ## 7. `echo` — Print Text to Terminal
