@@ -1,5 +1,23 @@
 ```plaintext
    {
+        wrong_code: |
+        trap "st=129; $do_exit" 1
+        trap "st=130; $do_exit" 2
+        trap "st=141; $do_exit" 13
+        trap "st=143; $do_exit" 15
+      error_category: signal handling issues
+      error: trap: invalid signal specification 13
+      correct_code: |
+        trap "st=129; $do_exit" 1
+        trap "st=130; $do_exit" 2
+        trap "st=141; $do_exit" SIGPIPE
+        trap "st=143; $do_exit" 15
+      patch: |
+        trap "st=129; $do_exit" 1
+        trap "st=130; $do_exit" 2
+        -trap "st=141; $do_exit" 13
+        +trap "st=141; $do_exit" SIGPIPE
+        trap "st=143; $do_exit" 15
         wrong_code:
             #! /bin/sh
             # test-driver - basic testsuite driver script.
