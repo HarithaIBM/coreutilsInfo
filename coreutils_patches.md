@@ -1,6 +1,6 @@
 ```plaintext
    {
-        wrong_code: |
+      wrong_code: |
         trap "st=129; $do_exit" 1
         trap "st=130; $do_exit" 2
         trap "st=141; $do_exit" 13
