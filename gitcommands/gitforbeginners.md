@@ -1,0 +1,2038 @@
+# GIT for Beginners
+
+## Anthony Baire
+
+###### Universit ́e de Rennes 1 / UMR IRISA
+
+## March 21, 2024
+
+This tutorial is licensed under a Creative Commons Attribution-NonCommercial-NoDerivs 3.0 France License
+
+
+## Objectives
+
+- Understand the basics about version control systems
+- Getting started with GIT
+    - working with a local repository
+    - synchronising with remote repositories
+
+
+## Summary
+
+### 1. About Version Control Tools
+
+### 2. Overview of GIT
+
+### 3. Working locally
+
+### 4. Branching & merging
+
+### 5. Interacting with a remote repository
+
+### 6. Hosting your code
+
+### 7. Working with third-party contributors
+
+### 8. Extras
+
+
+# Part 1.
+
+# About Version Control Tools
+
+## • Definition
+
+## • Use cases
+
+## • Base concepts
+
+## • History
+
+
+## What is a version control system?
+
+### From:http://en.wikipedia.org/wiki/Revision_control
+
+#### Revision control [...] is the management of changes to documents,
+
+#### computer programs, large web sites, and other collections of information.
+
+#### Changes are usually identified by a number or letter code, termed the
+
+#### ”revision number” [...]. For example, an initial set of files is ”revision 1”.
+
+#### When the first change is made, the resulting set is ”revision 2”, and so
+
+#### on.
+
+#### Each revision is associated with a timestamp and the person making the
+
+#### change.
+
+#### Revisions can be compared, restored, and with some types of files,
+
+#### merged.
+
+
+## Use case 1: keeping an history
+
+### The life of your software/article is recorded from the beginning
+
+- at any moment you can revert to a previous revision^1
+- the history is browseable, you can inspect any revision^2
+    - when was it done?
+    - who wrote it?
+    - what was changed?
+    - why?
+    - in which context?
+- all the deleted content remains accessible in the history
+
+```
+1
+```
+##### let’s say your not happy with your latest changes
+
+```
+2
+```
+##### this is useful for understanding and fixing bugs
+
+
+## Use case 2: working with others
+
+### VC tools help you to:
+
+- share a collection of files with your team
+- merge changes done by other users
+- ensure that nothing is accidentally overwritten
+- knowwhoyoumustblamewhensomethingisbroken
+
+
+## Use case 3: branching
+
+### You may have multiple variants of the same software, materialised
+
+### as branches , for example:
+
+- a main branch
+- a maintainance branch _(to provide bugfixes in older releases)_
+- a development branch _(to make disruptive changes)_
+- a release branch _(to freeze code before a new release)_
+
+### VC tools will help you to:
+
+- handle multiple branches concurrently
+- merge changes from a branch into another one
+
+
+## Use case 4: working with external contributors
+
+### VC tools help working with third-party contributors:
+
+- it gives them visibility of what is happening in the project
+- it helps them to submit changes (patches) and
+
+### it helps you to integrate these patches
+
+- forking the development of a software and merging it back
+
+### into mainline
+
+###### 3
+
+```
+3
+```
+##### decentralised tools only
+
+
+## Use case 5: scaling
+
+### Some metrics
+
+###### 4
+
+### about the Linux kernel (developed with GIT):
+
+- about 10000 changesets in each new version
+
+### (every 2 or 3 months)
+
+- 1000+ unique contributors
+
+```
+4
+```
+##### source: the Linux Foundation
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Some illustrations
+
+
+## Taxinomy
+
+### Architecture:
+
+- **centralised** →everyone works on the same unique repository
+- **decentralised** →everyone works on his own repository
+
+### Concurrency model:
+
+- **lock before edit** (mutual exclusion)
+- **merge after edit** (may have conflicts)
+
+### History layout:
+
+- **tree** (merges are not recorded)
+- **direct acyclic graph**
+
+### Atomicity scope: file vs whole tree GIT
+
+
+## Other technical aspects
+
+### Space efficiency : storing the whole history of a project requires
+
+### storage space (storing every revision of every file)
+
+### →most VC tools use delta compression to optimise the space
+
+### (except Git which uses object packing instead)
+
+### Access method : A repository is identified with a URL. VC tools
+
+### offer multiple ways of interacting with remote repositories.
+
+- dedicated protocol ( _svn:// git://_ )
+- direct access to a local repository ( _file://path_ or just _path_ )
+- direct access over SSH ( _ssh:// git+ssh:// svn+ssh://_ )
+- over http ( _[http://](http://) https://_ )
+
+
+## Creating new revisions
+
+
+## Creating new revisions
+
+
+## Creating new revisions
+
+
+## Creating new revisions
+
+
+## Creating new revisions
+
+
+## Creating new revisions
+
+
+## What shall be stored into the repository?
+
+### You should store all files that are not generated by a tool:
+
+- source files (.c .cpp .java .y .l .tex... )
+- build scripts / project files (Makefile configure.in
+
+### Makefile.am CMakefile.txt wscript .sln)
+
+- documentation files (.txt README... )
+- resource files (images, audio,... )
+
+### You should not store generated files
+
+### ( or you will experience many unneccessary conflicts )
+
+- .o .a .so .dll .class .jar .exe .dvi .ps .pdf
+- source files / build scripts when generated by a tool
+
+### (like autoconf, cmake, lex, yacc)
+
+
+## Guidelines for committing
+
+- commit often
+- commit independent changes in separate revisions
+- in commit messages, describe the rationale behind of your
+
+### changes ( it is often more important than the change itself )
+
+
+## History (Centralised Tools)
+
+- 1 _st_ generation _(single-file, local-only, lock-before-edit)_
+    - 1972: **SCCS**
+    - 1982: **RCS**
+    - 1985: PVCS
+- 2 _nd_ generation _(multiple-files, client-server, merge-before-commit,_
+
+#### contributions through patch files (1985))
+
+- 1986: **CVS**
+- 1992: Rational ClearCase
+- 1994: Visual SourceSafe
+- 3 _rd_ generation _(+ repository-level atomicity)_
+- 1995: Perforce
+- 2000: **Subversion**
+- + many others
+
+
+## History (Decentralised tools)
+
+
+# Part 2.
+
+# Overview of GIT
+
+## • History
+
+## • Git’s design & features
+
+## • User interfaces
+
+
+## History
+
+- before 2005: Linux sources were managed with Bitkeeper
+
+### (proprietary DVCS tool)
+
+###### 5
+
+- April 2005: revocation of the free-use licence
+
+### (because of some reverse engineering)
+
+- No other tools were enough mature to meet Linux’s dev
+
+### constraints (distributed workflow, integrity, performance).
+
+### ⇒Linus Torvald started developing Git
+
+- June 2005: first Linux release managed with Git
+- December 2005: Git 1.0 released
+
+```
+5
+```
+##### now open source! (since 2016)
+
+
+## Git Design objectives
+
+- distributed workflow (decentralised)
+- easy merging (mergedeemed more frequent thancommit)
+- integrity (protection against accidental/malicious corruptions)
+- speed & scalability
+- easeofuse
+
+
+## Git Design choices
+
+- Easily hackable
+    - simple data structures (blobs, trees, commits, tags)
+    - no formal branch history
+
+#### (a branch is just a pointer to the last commit)
+
+- low-level commands exposed to the user
+- Integrity
+- cryptographic tracking of history (SHA-1 hashes)
+- tag signatures (GPG)
+- Merging
+- pluggable merge strategies
+- staging area (index)
+- Performance
+- no delta encoding
+
+
+## Git Commands
+
+
+## Git GUIs: gitk→browsing the history
+
+
+## Git GUIs: git gui→preparing commits
+
+
+## 3rd party GUIs
+
+##### https://git-scm.com/downloads/guis
+
+- Anchorpoint
+- Aurees
+- CommandGit
+- Cong
+- Fork
+- Fugitive
+- Git Extensions
+- Git Klient
+- GitAhead
+- GitAtomic
+- GitDrive
+- GitFiend
+    - GitFinder
+    - GitHub
+
+###### Desktop
+
+- GitKraken
+- GitUI
+- GitUp
+- GitViewer
+- GitVine
+- Gitfox
+- Gitgui
+- Gitnuro
+- Gittyup
+    - Glint
+    - Guitar
+    - LazyGit
+    - Magit
+    - MeGit
+    - NitroGit
+    - Pocket Git
+    - PolyGit
+    - RepoZ
+    - SmartGit
+    - SnailGit
+    - SourceTree
+       - Sublime Merge
+       - TortoiseGit
+       - Tower
+       - Vershd
+       - Working Copy
+       - giggle
+       - git-cola
+       - gitg
+       - gitonic
+       - ungit
+
+
+# Part 3.
+
+# Working locally
+
+## • creating a repository
+
+## • adding & committing files
+
+## • the staging area (or index)
+
+
+## Create a new repository
+
+### git init myrepository
+
+### This command creates the directory myrepository.
+
+- the repository is located in _myrepository_ /.git
+- the (initially empty) working copy is located in _myrepository_ /
+
+####  
+
+```
+$pwd
+/tmp
+$git init helloworld
+Initialized empty Git repository in /tmp/helloworld/.git/
+$ls -a helloworld/
+```
+. .. .git
+**$ls helloworld/.git/**
+branches config description HEAD hooks info objects refs
+
+####  
+
+### Note: The/.git/directory contains your whole history,
+
+### do not delete it
+
+###### 6
+
+```
+6
+```
+##### unless your history is merged into another repository
+
+
+## Commit your first files
+
+### git add file
+
+### git commit [ -m message ]
+
+####  
+
+```
+$cd helloworld
+$echo'Hello World!'> hello
+$git add hello
+$git commit -m "added file'hello'"
+[master (root-commit) e75df61] added file'hello'
+1 files changed, 1 insertions(+), 0 deletions(-)
+create mode 100644 hello
+```
+####  
+
+### Note: “master” is the name of the default branch created by
+
+### git init
+
+
+## The staging area (aka the “index”)
+
+### Usual version control systems provide two spaces:
+
+- the **repository**
+
+### (the whole history of your project)
+
+- the **working tree** (or **local copy** )
+
+### (the files you are editing and that will be in the next commit)
+
+### Git introduces an intermediate space : the staging area
+
+### (also called index )
+
+### The index stores the files scheduled for the next commit:
+
+- git add _files_ →copy files into the index
+- git commit →commits the content of the index
+
+
+## The staging area (aka the “index”)
+
+
+## Update a file
+
+####  
+
+```
+$echo'blah blah blah'>> hello
+$git commit
+# On branch master
+# Changed but not updated:
+# (use "git add <file>..." to update what will be committed)
+# (use "git checkout -- <file>..." to discard changes in working directory)
+#
+# modified: hello
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+####  
+
+### Git complains because the index is unchanged (nothing to commit)
+
+### →We need to rungit addto copy the file into the index
+
+####  
+
+```
+$git add hello
+$git commit -m "some changes"
+[master f37f2cf] some changes
+1 files changed, 1 insertions(+), 0 deletions(-)
+```
+####  
+
+
+## Bypassing the index
+
+#### 7
+
+### Runninggit add&git commitfor every iteration is tedious.
+
+### GIT provides a way to bypass the index.
+
+### git commit file1 [ file2... ]
+
+### This command commits files (or dirs) directly from the working
+
+### tree
+
+### Note: when bypassing the index, GIT ignores new files:
+
+- “git commit .” commits only files that were present in the last commit
+
+###### (updated files)
+
+- “git add. && git commit” commits everything in the working tree
+
+###### (including new files)
+
+```
+7
+```
+##### also named “partial commit”
+
+
+## Bypassing the index
+
+
+## Deleting files
+
+### git rm file
+
+### →remove the file from the index and from the working copy
+
+### git commit
+
+### →commit the index
+
+####  
+
+```
+$git rm hello
+rm'hello'
+$git commit -m "removed hello"
+[master 848d8be] removed hello
+1 files changed, 0 insertions(+), 3 deletions(-)
+delete mode 100644 hello
+```
+####  
+
+
+## Showing differences
+
+### git diff [ reva [ revb ] ] [ -- path... ]
+
+### →shows the differences between two revisions reva and revb
+
+### ( in a format suitable for the patch utility )
+
+- by default _reva_ is the **index**
+- by default _revb_ is the **workingcopy**
+
+### git diff --staged [ reva ] [ -- path... ]
+
+### → shows the differences between reva and the index
+
+- by default _reva_ isHEAD _(a symbolic references pointing to the_
+
+### last commit)
+
+
+## Aboutgit diffand the index
+
+
+##  Diff example 
+
+```
+$echo foo >> hello
+$git add hello
+$echo bar >> hello
+```
+```
+$git diff
+--- a/hello
++++ b/hello
+@@ -1,2 +1,3 @@
+Hello World!
+foo
++bar
+```
+```
+$git diff --staged
+--- a/hello
++++ b/hello
+@@ -1 +1,2 @@
+Hello World!
++foo
+```
+```
+$git diff HEAD
+--- a/hello
++++ b/hello
+@@ -1 +1,3 @@
+Hello World!
++foo
++bar
+```
+####  
+
+
+## Resetting changes
+
+### git reset [ --hard ] [ -- path... ]
+
+### git resetcancels the changes in the index (and possibly in the
+
+### working copy)
+
+- git resetdrops the changes staged into the index^8 , but the
+
+### working copy is left intact
+
+- git reset --harddrops all the changes in the index **and** in
+
+### the working copy
+
+```
+8
+```
+##### it restores the files as they were in the last commit
+
+
+## Resetting changes in the working copy
+
+#### 9
+
+### git checkout -- path
+
+### This command restores a file (or directory) as it appears in the
+
+### index (thus it drops all unstaged changes)
+
+####  
+
+```
+$git diff HEAD
+--- a/hello
++++ b/hello
+@@ -1 +1,3 @@
+Hello World!
++foo
++bar
+$git checkout --.
+$git diff HEAD
+--- a/hello
++++ b/hello
+@@ -1 +1,2 @@
+Hello World!
++foo
+```
+####  
+
+```
+9
+```
+##### since v2.23 you may also use the experimental commandgit restore
+
+
+## Other local commands
+
+- git status →show the status of the index and working
+
+### copy
+
+- git show →show the details of a commit (metadata + diff )
+- git log →show the history
+- git mv →move/rename a file^10
+- git tag →creating/deleting tags (to identify a particular
+
+### revision)
+
+```
+10
+```
+##### note thatgit mvis strictly equivalent to: “cp src dst && git rm src &&
+
+##### git add dst ” (file renaming is not handled formally, but heuristically)
+
+
+## Exercises
+
+1. create a new repository
+2. create a new file, add it to the index and commit it
+3. launchgitkto display it. Keep the window open and hit F5 after each
+    command (to visualise the results of your commands)
+4. modify the file and make a new commit
+5. rename the file (either withgit mvorgit add+git rm), do agit status
+    before committing (to ensure the renaming is correctly handled)
+6. delete the file and commit it
+7. create two new files and commit them. Then modify their content in the
+    working copy and display the changes withgit diff
+8. add one file into the index but keep the other one. Display the changes
+    between:
+       - the index and the working copy
+       - the last commit and the index
+       - the last commit and the working copy
+9. rungit resetto reset the index
+10. rungit reset --hardto reset the index and the working copy
+
+
+# Part 4.
+
+# Branching & merging
+
+## • How GIT handles its history
+
+## • Creating new branches
+
+## • Merging & resolving conflicts
+
+
+## How GIT handles its history
+
+### Each commit object has a list of parent
+
+### commits :
+
+- 0 parents →initial commit
+- 1 parent →ordinary commit
+- 2+ parents →result of amerge
+
+### →This is a Direct Acyclic Graph
+
+
+## How GIT handles its history
+
+- There is no formal “branch history”
+
+### →a branch is just a pointer on the latest commit.
+
+### ( git handles branches and tags in the same way internally )
+
+- Commits are identified with **SHA-1 hash** (160 bits)
+
+### computed from:
+
+- the commited files
+- the meta data (commit message, author name,... )
+- the hashes of the parent commits
+
+### →A commit id (hash) identifies securely and reliably its
+
+### content and all the previous revisions.
+
+
+## Creating a new branch
+
+### git checkout -b newbranch [ startingpoint ]
+
+- _newbranch_ is the name of the new branch
+- _startingpoint_ is the starting location of the branch (possibly a
+
+### commit id, a tag, a branch,... ). If not present, git will use
+
+### the current location.
+
+####  
+
+```
+$git status
+# On branch master
+nothing to commit (working directory clean)
+$git checkout -b develop
+Switched to a new branch'develop'
+$git status
+# On branch develop
+nothing to commit (working directory clean)
+```
+####  
+
+
+## Switching between branches
+
+#### 11
+
+### git checkout [-m] branchname
+
+####  
+
+```
+$git status
+# On branch develop
+nothing to commit (working directory clean)
+$git checkout master
+Switched to branch'master'
+```
+####  
+
+### Note: it may fail when the working copy is not clean. Add-mto
+
+### request merging your local changes into the destination branch.
+
+####  
+
+```
+$git checkout master
+error: Your local changes to the following files would be overwritten by checkout: hello
+Please, commit your changes or stash them before you can switch branches.
+Aborting
+$git checkout -m master
+M hello
+Switched to branch'master'
+```
+####  
+
+```
+11
+```
+##### since v2.23 you may also use the experimental commandgit switch
+
+
+## Merging a branch
+
+### git merge otherbranch
+
+### This will merge the changes in otherbranch into the current
+
+### branch.
+
+####  
+
+```
+$git status
+# On branch master
+nothing to commit (working directory clean)
+$git merge develop
+Merge made by recursive.
+dev | 1 +
+hello | 4 +++-
+2 files changed, 4 insertions(+), 1 deletions(-)
+create mode 100644 dev
+```
+####  
+
+
+## Notes about merging
+
+- The result ofgit mergeis immediately committed
+
+### (unless there is a conflict)
+
+- The new commit object has **two parents**.
+
+### →the merge history is recorded
+
+- git mergeapplies only the changes since the last common
+
+### ancestor in the other branch.
+
+### →if the branch was already merged previously, then only the
+
+### changes since the lastmergewill be merged.
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## Branching example
+
+
+## How Git merges files?
+
+### If the same file was independently modified in the two branches,
+
+### then Git needs to merge these two variants
+
+- **textual files** are merged on a per-line basis:
+    - lines changed in only one branch are automatically merged
+    - if a line was modified in the two branches, then Git reports a
+
+#### conflict. Conflict zones are enclosed within<<<<<<< >>>>>>>
+
+####  
+
+```
+Here are lines that are either unchanged from the common
+ancestor, or cleanly resolved because only one side changed.
+<<<<<<< yours:sample.txt
+Conflict resolution is hard;
+let's go shopping.
+=======
+Git makes conflict resolution easy.
+>>>>>>> theirs:sample.txt
+And here is another line that is cleanly resolved or unmodified.
+```
+####  
+
+- **binary files** always raise a conflict and require manual merging
+
+
+## Merge conflicts
+
+### In case of a conflict:
+
+- **unmerged files** (those having conflicts) are left **in the**
+
+### working tree and marked as “unmerged”
+
+###### 12
+
+- **the other files** (free of conflicts) and the metadata (commit
+
+### message, parents commits, ...) are automatically added into
+
+### the index (the staging area)
+
+```
+12
+```
+##### Git will refuse to commit the new revision until all the conflicts are
+
+##### explicitely resolved by the user
+
+
+## Resolving conflicts
+
+### There are two ways to resolve conflicts:
+
+- either edit the files manually, then run
+
+### git add file → to check the file into the index
+
+### or
+
+### git rm file →to delete the file
+
+- or with a conflict resolution tool(xxdiff, kdiff3, emerge, ...)
+
+### git mergetool [ file ]
+
+### Then, once all conflicting files are checked in the index, you just
+
+### need to rungit committo commit the merge.
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Conflict example
+
+
+## Deleting branches
+
+### git branch -d branchname
+
+### This command has some restrictions, it cannot delete:
+
+- the current branch (HEAD)
+- a branch that has not yet been merged into the current branch
+
+####  
+
+```
+$git branch -d feature-a
+Deleted branch feature-a (was 45149ea).
+$git branch -d feature-b
+error: The branch'feature-b'is not fully merged.
+If you are sure you want to delete it, run'git branch -D feature-b'.
+$git branch -d master
+error: Cannot delete the branch'master'which you are currently on.
+```
+####  
+
+### →git branch -dis safe
+
+###### 13
+
+```
+13
+```
+##### unlikegit branch -Dwhich deletes unconditionnally ( ) the branch
+
+
+## Exercises
+
+##### 0. use “gitk --all” to display all branches
+
+##### (and remember to hit F5 after each command to visualise the changes)
+
+##### 1. create a new branch named “develop”
+
+##### 2. make some commits in this branch
+
+##### 3. go back to branch “master” and make some commits
+
+##### 4. merge branch “develop” into “master”
+
+##### 5. make a new commit in each branch so as to generate a conflict (edit the
+
+##### same part of a file)
+
+##### 6. merge branch “develop” into “master”, and fix the conflict
+
+##### 7. merge “master” into “develop”
+
+
+# Part 5.
+
+# Interacting with a remote
+
+# repository
+
+## • Overview
+
+## • Creating a shared repository
+
+## • Configuring a remote repository
+
+## • Sending changes (push)
+
+## • Receiving changes (pull)
+
+
+## Simple workflow (Centralised)
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## Team Workflow
+
+
+## How git handles remote repositories
+
+- It is possible to work with multiple remote repositories
+- Each remote repository is identified with a local alias.
+
+### When working with a unique remote repository, it is usually
+
+### named origin
+
+###### 14
+
+- Remote repositories are mirrored within the local repository
+- Remote branches are mapped in a separate namespace:
+
+### remote/ name / branch.
+
+### Examples:
+
+- masterrefers to the localmasterbranch
+- remote/origin/masterrefers to themasterbranch of the
+
+#### remote repository namedorigin
+
+14
+
+##### default name used bygit clone
+
+
+## Adding a remote repository
+
+### git remote add name url
+
+- _name_ is a local alias identifying the remote repository
+- _url_ is the location of the remote repository
+
+### Examples:
+
+####  
+
+```
+$git remote add origin /tmp/helloworld.git
+```
+```
+$git remote add origin ssh://username@scm.gforge.inria.fr/gitroot/helloworld/helloworld.git
+```
+####  
+
+
+## Pushing (uploading) local changes to the remote repository
+
+### git push
+
+- git pushexamines the current branch, then:
+    - if the branch is tracking an upstream branch, then the local
+
+#### changes (commits) are propagated to the remote branch
+
+- if not, then nothing is sent
+
+#### (new branches created locally are considered private by default)
+
+- In case of conflictgit pushwill fail and require to rungit
+
+### pullfirst
+
+
+## Pushing a new branch to the remote repository
+
+### git push -u destinationrepository ref [ ref... ]
+
+- explicit variant ofgit push: the local reference _ref_ (a branch
+
+### or a tag) is pushed to the remote destinationrepository
+
+- -u/--set-upstreamconfigures the local branch to track the
+
+### remote branch
+
+###### 15
+
+### (this is usually what you want)
+
+####  
+
+```
+$git push
+fatal: The current branch master has no upstream branch.
+To push the current branch and set the remote as upstream, use
+git push --set-upstream origin master
+```
+```
+$git push -u origin master
+To /tmp/helloworld.git/
+* [new branch] master -> master
+Branch master set up to track remote branch master from origin.
+```
+####  
+
+```
+15
+so thatgit pullangit pushwork with that repository by default
+```
+
+## Fetching (downloading) changes from the remote
+
+## repository
+
+### git fetch
+
+### git fetchupdates the local mirror of the remote repository:
+
+- it downloads the new commits from the remote repository
+- it updates the referencesremote/ _remotename_ / _*_ to match
+
+### their counterpart in the remote repository.
+
+### Example: the branchremote/origin/masterin the local
+
+### repository is updated to match the new position of the branch
+
+### masterin the remote reposity
+
+
+## Merging remote changes into the current local branch
+
+### Changes in the remote repository can be merged explicitely into
+
+### the local branch by runninggit merge
+
+####  
+
+```
+$git status
+# On branch master
+$git fetch
+...
+$git merge origin/master
+```
+####  
+
+### In practice, it is more convenient to usegit pull, which is a
+
+### shortcut forgit fetch+git merge
+
+### git pull
+
+####  
+
+```
+$git pull
+```
+####  
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Remote example
+
+
+## Importing a new remote branch
+
+### git checkout branchname
+
+### If the branchname does not exist locally, then GIT looks for it in
+
+### the remote repositories. If it finds it, then it creates the local
+
+### branch and configures it to track the remote branch.
+
+####  
+
+```
+$git branch --all
+* master
+remotes/origin/master
+remotes/origin/new-fancy-feature
+$git checkout new-fancy-feature
+Branch new-fancy-feature set up to track remote branch new-fancy-feature from origin.
+Switched to a new branch'new-fancy-feature'
+$git branch --all
+master
+* new-fancy-feature
+remotes/origin/master
+remotes/origin/new-fancy-feature
+```
+####  
+
+
+## Cloning a repository
+
+### git clone url [ directory ]
+
+- git clonemakes a local copy of a remote repository and
+
+### configures it as itsoriginremote repository.
+
+- git cloneis a shortcut for the following sequence:
+    1.git init _directory_
+    2.cd _directory_
+    3.git remote add origin _url_
+    4.git fetch
+    5.git checkout master
+- In practice you will rarely usegit init,git remoteand
+
+### git fetchdirectly, but rather use higher-level commands:
+
+### git cloneandgit pull.
+
+
+## Typical Workflow
+
+
+## Exercises
+
+###### 0. (remember to visualise your operations with “ gitk --all ” → hit F5)
+
+###### 1. clone the following repositoryhttps://allgo.inria.fr/git/hello
+
+###### 2. usegitk --all(to display remote branches too)
+
+###### 3. make some commits and synchronise (pull/push) with the origin repository
+
+###### 4. do it again so as to experience and resolve a conflict
+
+###### 5. usegit fetchto review remote commits before merging them
+
+###### 6. create a new branch, make a commit and publish it to the shared repository
+
+###### 7. check out a branch created by another participant
+
+
+# Part 6.
+
+# Hosting your code
+
+## • GIT forges
+
+## • The bug tracker
+
+## • Continuous Integration / Continuous Deployment
+
+
+## What is a forge (1/2)
+
+- Remote repositories need to be hosted somewhere on the
+
+### network
+
+- The most popular way to use _forge_ , which hosts the repository
+
+### as a project , along with lot of features useful for software
+
+### development
+
+- The most popular forge are:
+    - Github (SAAS)
+    - Gitlab (SAAS, also available in open-source,
+
+#### eg:https://gitlab.istic.univ-rennes1.fr/)
+
+
+## What is a forge (2/2)
+
+- For each hosted _project_ , the forge typically provides:
+    - a GIT repository
+    - a bug tracker
+       - _issues_ (bug reports, todo items, roadmap)
+       - _pull requests/merge requests_ (code submission, code review)
+    - continuous integration & deployment (automated tasks)
+    - package registries (to publish binary artificats, eg: maven
+
+#### packages, docker images)
+
+- a wiki and/or a static web site ( _pages_ )
+- a WEB editor
+- an API for plugging external tools (eg. analytics, security
+
+#### scanner,... )
+
+- fine-grained access control
+-...
+
+
+## Bug tracker (1/2)
+
+### Work items are referred as issues :
+
+- each issue has a unique id, prefixed with # (eg: #1, #2)
+- it contains a text description of the problem and a discussion
+- issues may be grouped by tags and/or by milestone
+- issues may be assigned to a developer or team
+- complex issues may be subdivided into smaller issues
+- repository integration: issues are automatically closed when the text
+
+#### “Fix # id ” or “Close # id ” is present in:
+
+- the message of a commit merged into the main branch
+- the description of a pull request merged into the main branch
+
+
+## Bug tracker (2/2)
+
+### Code submissions are referred as pull request (in Github) or merge
+
+### request (in Gitlab):
+
+- each request has a unique id, prefixed with # (in Github)
+
+#### or! (in Gitlab)
+
+- it refers to a git branch (possibly hosted in another project) to be
+
+#### merged into the current project
+
+- it contains a text description of the implementation and a discussion
+- it facilitates code review before accepting a submission, the UI
+
+#### displays a diff of the submitted code (global diff, per-commit diff,
+
+#### per-update diff when the origin branch is updated)
+
+- closing a request may be done with merging (accepted) or without
+
+#### merging (rejected)
+
+- a request may refer to one or more issues, multiple pull requests
+
+#### may refer to the same issue (in case multiple implementation were
+
+#### submitted, possibly from different people)
+
+
+## Continuous Integration / Continuous Deployment (1/2)
+
+#### Automatic tasks may be scripted in.gitlab-ci.yml(in Gitlab) or
+
+#### in.github/workflows/(in Github)
+
+- it may be used for:
+    - Continuous Integration (eg: build the software, run the
+
+#### testsuites), so as to detect bugs as soon as possible
+
+- Continuous Deployment (eg: publish artifacts, deploy the
+
+#### service, update the website/genrated doc)
+
+- CI/CD jobs are run on a _runner_ outside the forge, runners may be
+
+#### dedicated to a project/group (private runner) or available to any
+
+#### project (shared runner)
+
+- the same job may be run on multiple runners (eg: to support
+
+#### multiple target platforms)
+
+- when a job fails, the user triggering it is notified by e-mail
+
+
+## Continuous Integration / Continuous Deployment (2/2)
+
+### security consideration
+
+- be very cautious when the same project is configured to:
+    - run jobs on merge requests submitted by external contributers
+    - perform continuous deployment
+- a malicious user may execute arbitrary code in your runner and find
+
+#### a path to attack your production server / infect your published
+
+#### artifacts (eg: by poisonning caches, by rooting the runner,... )
+
+- you must ensure that proper isolation is implemented.
+
+#### If unsure, it is wiser to implement continuous deployment using a
+
+#### separate project and separate runner.
+
+- example horror story at github:
+    https://adnanthekhan.com/2023/12/20/one-supply-chain-attack-to-rule-them-all/
+
+
+# Part 7.
+
+# Working with third-party
+
+# contributors
+
+## • Common workflows
+
+## • Generating & applying patches
+
+## • Merging from third-party repositories
+
+
+## Common workflows
+
+more about workflows at:https://www.atlassian.com/git/workflows
+
+
+## About 3rd party contributions
+
+### Third-party contributors
+
+###### 16
+
+### can submit their contributions by:
+
+- sending patches (the traditional way)
+- publishing their own (unofficial) repository and asking an
+
+### official developer to merge from this repository
+
+### ( pull request or merge request )
+
+```
+16
+```
+##### developers who are not allowed topushto the official repository
+
+
+## Explicit pull/push
+
+### push/pullcan work on any arbitrary repository identified by its url
+
+### git push url ref [ ref ...]
+
+### git push url localref : remoteref ... (push as a different name)
+
+### →push the local ref (a branch or a tag) to repository url
+
+### git pull url ref [ ref ...]
+
+### →merge the remote ref (a branch or a tag) from repository url
+
+### into the current local branch
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Decentralised workflow
+
+
+## Reviewing a remote branch
+
+### git pullmerges immediately the remote branch into the current
+
+### local branch.
+
+### In practice you may prefer to review it before merging.
+
+### git fetch url branch
+
+### →fetch the branch branch from the repository url and store it
+
+### temporarily
+
+###### 17
+
+### asFETCHHEAD
+
+####  
+
+```
+$git fetch git://git.raoul-duke.org/helloworld.git master
+From git://git.raoul-duke.org/helloworld.git
+* branch master -> FETCH_HEAD
+$gitk FETCH_HEAD
+...review the commits ...
+$git merge FETCH_HEAD
+```
+####  
+
+```
+17
+```
+##### theFETCHHEADref remains valid until the next timegit fetchis run
+
+
+## Decentralised workflow (GIT-centric forges)
+
+
+## Generating patches
+
+- git diff
+
+### The basic (legacy) way: usegit diff
+
+- git format-patch
+
+### The modern way:git format-patchconverts you history
+
+### (commits) into a series of patches (on file per commit) and it
+
+### records the metadata (author name, commit message)
+
+###### 18
+
+```
+18
+```
+##### Note: git format-patchdoes not preserve merge history & conflicts
+
+##### resolution. You should only use it when your history is linear.
+
+
+## Generating patches
+
+### git format-patch revorigin [.. revfinal ]
+
+### git format-patchgenerates patches from revision revorigin to
+
+### revfinal (or to the current version if not given)
+
+### Example:
+
+####  
+
+```
+$git format-patch origin/master
+0001-added-foo.patch
+0002-removed-bar.patch
+```
+####  
+
+
+## Applying patches
+
+### git am file1 [ file2 ...]
+
+- git am^19 applies a series of patches generated by
+
+### git format-patchinto the local repository
+
+### (each patch produces one commit)
+
+- the authorship of the submitter is preserved^20
+
+####  
+
+```
+$git am 0001-added-foo.patch 0002-removed-bar.patch
+Applying: added foo
+Applying: removed bar
+```
+####  
+
+```
+19
+```
+##### amoriginally stands for “apply mailbox”
+
+```
+20
+```
+##### actually GIT distinguishes between the author and the committer of a
+
+##### revision (usually they refer to the same person, but not when runninggit am)
+
+
+## Exercises
+
+###### 1. look up the helloforge project on the istic forge at:
+
+###### https://gitlab.istic.univ-rennes1.fr/abaire/helloforge
+
+###### 2. clone the repository (click on the Clone button to get the repository url, prefer
+
+###### using the ssh url rather than https)
+
+###### 3. create one or more commit, then try to push your master branch (note: this
+
+###### should fail because the master branch is protected)
+
+###### 4. push your branch under a different name, eg:
+
+####  
+
+```
+$git push origin master:my_new_branch_name
+```
+####  
+
+###### 5. create a merge request for your branch (to merge it into origin/master). You
+
+###### can do that either in the merge requests page on the forge or by following the
+
+###### url displayed by thegit pushcommand.
+
+###### 6. once your merge request is created, browse its details (discussion, changes,... ),
+
+###### then approve it to have it merged into the master branch.
+
+###### 7. rungit pulland check the results ingitk
+
+###### 8. repeat steps 3 to 7, but by publishing your branche in a forked repository (click
+
+###### on Fork on the project page to create your fork)
+
+
+# Part 8.
+
+# Extras
+
+## • Some advices
+
+## • Common traps
+
+## • Documentation
+
+## • Next tutorial
+
+
+## Some advices (1/2)
+
+- commit as often as you can (keep independent changes in
+
+### separate commits)
+
+- rungit diffbefore preparing a commit
+- in commit messages, describe the rationale behind of your
+
+### changes (it is often more important than the change itself )
+
+- do not forget to rungit push
+- use a.gitignorefile to ignore generated files (*.o, *.a,... )
+
+
+## Some advices (2/2)
+
+- don’t be fully desynchronised → rungit pullenough often
+
+### to avoid accumulating conflicts
+
+- idem for feature branches
+
+### (merge from the mainstream branch enough often)
+
+- when creating complex patches (as an external contributor)
+
+### prefer using one branch per patch
+
+- keep agitkinstance open when doing fancy things
+
+
+## Common traps (1/2)
+
+- git diffwithout arguments shows the difference with the
+
+### index →rungit diff HEADto show the differences with
+
+### the last commit
+
+- git resetreverts the index, but keeps the working copy
+
+### unchanged
+
+### →dogit reset --hardif you need to revert the working
+
+### copy too
+
+
+## Common traps (2/2)
+
+- GIT is not forgiving, do not ignore its warnings and do not use
+
+### --forceunless you have a clear idea of what you are doing
+
+- GIT’s history is not immutable
+- git checkouton an arbitrary commit or a tag (anything
+
+### that is not a branch) puts your in “detached HEAD” state.
+
+### You can commit, but your history be lost if you don’t create
+
+### any branch (or tag) to reference them.
+
+
+## Detached head state
+
+
+## Detached head state
+
+
+## Detached head state
+
+
+## Detached head state
+
+
+## Detached head state
+
+
+## Other useful utility commands
+
+- git gc →garbage collector (run it when the/.git/
+
+### directory takes too much space)
+
+- git stash →save/restore the state of the working copy and
+
+### index (useful when in need to commit an urgent fix)
+
+- git clean →clean the working tree ( you must ensure
+
+### that all your code is committed)
+
+- git bisect →locating which commit introduced a bug
+- git cherry-pick →merging a single commit
+- git revert →cancelling a previous commit
+
+
+## Further documentation
+
+- man git _cmd_ (tough & exhaustive)
+- man gitglossary
+- The Git book
+
+```
+http://git-scm.com/book
+```
+- The Git community book
+
+```
+http://www.scribd.com/doc/7502572/The-Git-Community-Book
+```
+- Github learning materials
+
+```
+http://learn.github.com/
+```
+- Atlassian learning materials
+
+```
+https://www.atlassian.com/git/tutorial
+```
+```
+https://www.atlassian.com/git/workflows
+```
+- Tech Talk: Linus Torvalds on git (May 2007)
+
+```
+https://www.youtube.com/watch?v=4XpnKHJAok8
+```
+
